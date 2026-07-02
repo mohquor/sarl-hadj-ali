@@ -383,7 +383,7 @@
       <div class="info-row"><div class="ic">📍</div><div><div class="t">العنوان</div><div class="d">تقرت، ولاية تقرت، الجزائر</div></div></div>
       <div class="info-row"><div class="ic">⏱</div><div><div class="t">ساعات العمل</div><div class="d">السبت – الخميس، 8 صباحًا – 5 مساءً</div></div></div>
     </div>
-    <form class="reveal" onsubmit="handleSubmit(event)">
+<form class="reveal" action="https://formsubmit.co/limanemoha6@gmail.com" method="POST"></form>
       <div class="row2">
         <div class="field"><label for="name">الاسم الكامل</label><input id="name" type="text" required></div>
         <div class="field"><label for="phone">رقم الهاتف</label><input id="phone" type="tel" required></div>
@@ -391,6 +391,8 @@
       <div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required></div>
       <div class="field"><label for="subject">نوع المشروع</label><input id="subject" type="text" placeholder="مثال: رصف طريق، جسر، صيانة..."></div>
       <div class="field"><label for="msg">تفاصيل الطلب</label><textarea id="msg" rows="4" required></textarea></div>
+      <input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_subject" value="طلب جديد من موقع شركة الحاج علي">
       <button type="submit" class="submit-btn">إرسال الطلب</button>
       <p class="form-note" id="formNote">سيتواصل معك فريقنا الهندسي خلال 24 ساعة عمل.</p>
     </form>
@@ -421,12 +423,29 @@
   }, {threshold:.15});
   revealEls.forEach(el=>io.observe(el));
 
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
-    document.getElementById('formNote').textContent = 'تم استلام طلبك بنجاح، سيتواصل معك فريقنا قريبًا.';
-    e.target.reset();
-  }
-</script>
 
+    emailjs.sendForm(
+        "service_hadjali",
+        "template_hadjali",
+        e.target
+    ).then(function () {
+        document.getElementById("formNote").textContent =
+            "تم إرسال طلبك بنجاح، سنتواصل معك قريبًا.";
+        e.target.reset();
+    }).catch(function (error) {
+        document.getElementById("formNote").textContent =
+            "حدث خطأ أثناء الإرسال.";
+        console.log(error);
+    });
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+emailjs.init({
+    publicKey: "CK6YyohC4SiDPWrOQ",
+});
+</script>
 </body>
 </html>
