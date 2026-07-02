@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شركة الحاج علي للري والطرقات | تقرت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#1b1c1e;
+    --asphalt-2:#26282b;
+    --concrete:#8d8f8f;
+    --concrete-light:#c9cac8;
+    --line-yellow:#f4b41a;
+    --safety-orange:#e2571c;
+    --paper:#f3f1ea;
+    --white:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Cairo','IBM Plex Sans Arabic',sans-serif;
+    background:var(--paper);
+    color:var(--asphalt);
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  .mono{font-family:'IBM Plex Sans Arabic',sans-serif; letter-spacing:.5px;}
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- lane line divider (signature element) ---------- */
+  .lane{
+    height:6px;
+    width:100%;
+    background-image:repeating-linear-gradient(90deg, var(--line-yellow) 0 46px, transparent 46px 78px);
+    opacity:.9;
+  }
+  .lane.small{height:4px;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--asphalt);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px; max-width:1180px; margin:0 auto;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-weight:900; font-size:1.5rem; color:var(--white);
+  }
+  .brand .dot{
+    width:10px; height:10px; background:var(--line-yellow); border-radius:2px;
+    transform:rotate(45deg);
+  }
+  .navlinks{display:flex; gap:34px;}
+  .navlinks a{
+    color:var(--concrete-light); font-weight:600; font-size:.95rem;
+    position:relative; padding:6px 0; transition:color .25s;
+  }
+  .navlinks a:hover, .navlinks a:focus-visible{color:var(--white);}
+  .navlinks a::after{
+    content:''; position:absolute; right:0; bottom:0; width:0; height:2px;
+    background:var(--line-yellow); transition:width .25s;
+  }
+  .navlinks a:hover::after, .navlinks a:focus-visible::after{width:100%;}
+  .nav-cta{
+    background:var(--safety-orange); color:var(--white); font-weight:700;
+    padding:10px 22px; border-radius:3px; font-size:.9rem;
+    transition:filter .2s;
+  }
+  .nav-cta:hover{filter:brightness(1.12);}
+  .burger{display:none; background:none; border:0; color:var(--white); font-size:1.6rem; cursor:pointer;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:var(--asphalt);
+    color:var(--white);
+    position:relative;
+    padding:100px 0 80px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(244,180,26,.10), transparent 45%),
+      radial-gradient(circle at 10% 90%, rgba(226,87,28,.12), transparent 40%);
+    pointer-events:none;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center;
+    position:relative;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    color:var(--line-yellow); font-weight:700; font-size:.85rem;
+    margin-bottom:22px; letter-spacing:.5px;
+  }
+  .eyebrow::before{content:''; width:26px; height:2px; background:var(--line-yellow);}
+  h1{
+    font-size:3.4rem; font-weight:900; line-height:1.18; margin-bottom:22px;
+  }
+  h1 span{color:var(--line-yellow);}
+  .hero p.lead{
+    color:var(--concrete-light); font-size:1.15rem; line-height:1.9; max-width:520px; margin-bottom:34px;
+  }
+  .btn-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:15px 30px; border-radius:3px; font-weight:700; font-size:1rem;
+    transition:transform .2s, filter .2s;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{background:var(--safety-orange); color:var(--white);}
+  .btn-primary:hover{filter:brightness(1.1);}
+  .btn-ghost{border:1.5px solid rgba(255,255,255,.35); color:var(--white);}
+  .btn-ghost:hover{border-color:var(--line-yellow); color:var(--line-yellow);}
+
+  /* road visual */
+  .road-card{
+    position:relative; height:360px; border-radius:6px; overflow:hidden;
+    background:linear-gradient(180deg, #2c2e31 0%, #1b1c1e 70%);
+    box-shadow:0 30px 60px rgba(0,0,0,.4);
+  }
+  .road-card .strip{
+    position:absolute; left:50%; top:0; bottom:0; width:14px; margin-left:-7px;
+    background-image:repeating-linear-gradient(180deg, var(--line-yellow) 0 34px, transparent 34px 62px);
+    animation:drive 2.2s linear infinite;
+  }
+  @keyframes drive{ from{background-position-y:0;} to{background-position-y:96px;} }
+  .road-card .km{
+    position:absolute; bottom:20px; right:20px; color:var(--concrete-light);
+    font-size:.8rem; font-family:'IBM Plex Sans Arabic',sans-serif;
+  }
+  .road-card .horizon{
+    position:absolute; top:0; left:0; right:0; height:40%;
+    background:linear-gradient(180deg, rgba(244,180,26,.12), transparent);
+  }
+
+  /* ---------- stats strip ---------- */
+  .stats{
+    background:var(--asphalt-2); color:var(--white); padding:36px 0;
+  }
+  .stats .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:28px;}
+  .stat{text-align:center; flex:1; min-width:140px;}
+  .stat .num{font-size:2.1rem; font-weight:900; color:var(--line-yellow); font-family:'IBM Plex Sans Arabic',sans-serif;}
+  .stat .label{color:var(--concrete-light); font-size:.85rem; margin-top:4px;}
+
+  /* ---------- section shared ---------- */
+  section{padding:96px 0;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .kicker{
+    color:var(--safety-orange); font-weight:800; font-size:.85rem; margin-bottom:12px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .kicker::before{content:''; width:26px; height:2px; background:var(--safety-orange);}
+  h2{font-size:2.3rem; font-weight:900; line-height:1.3; margin-bottom:14px;}
+  .section-head p{color:#54575a; font-size:1.05rem; line-height:1.85;}
+
+  /* ---------- about ---------- */
+  #about{background:var(--white);}
+  .about-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:60px; align-items:center;}
+  .about-visual{
+    background:var(--asphalt); border-radius:8px; padding:38px;
+    color:var(--white); position:relative;
+  }
+  .about-visual .quote{font-size:1.3rem; font-weight:700; line-height:1.7;}
+  .about-visual .quote-mark{font-size:3rem; color:var(--line-yellow); line-height:.6; display:block; margin-bottom:10px; font-weight:900;}
+  .about-visual .signee{margin-top:26px; color:var(--concrete-light); font-size:.9rem;}
+  .about-body p{color:#3d3f41; line-height:1.95; margin-bottom:18px; font-size:1rem;}
+  .values{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:28px;}
+  .value{
+    border-right:3px solid var(--line-yellow); padding:6px 16px;
+  }
+  .value h4{font-size:1rem; font-weight:800; margin-bottom:4px;}
+  .value p{font-size:.88rem; color:#63666a; line-height:1.7;}
+
+  /* ---------- services ---------- */
+  #services{background:var(--asphalt); color:var(--white);}
+  #services .section-head p{color:var(--concrete-light);}
+  #services .kicker{color:var(--line-yellow);}
+  #services .kicker::before{background:var(--line-yellow);}
+  .service-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(255,255,255,.08);}
+  .service{
+    background:var(--asphalt); padding:36px 30px; transition:background .25s;
+    position:relative;
+  }
+  .service:hover{background:var(--asphalt-2);}
+  .service .idx{
+    font-family:'IBM Plex Sans Arabic',sans-serif; color:var(--line-yellow); font-weight:700;
+    font-size:.85rem; margin-bottom:18px; display:block;
+  }
+  .service h3{font-size:1.2rem; font-weight:800; margin-bottom:10px;}
+  .service p{color:var(--concrete-light); font-size:.9rem; line-height:1.8;}
+
+  /* ---------- gallery ---------- */
+  #gallery{background:var(--paper);}
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  }
+  .gcard{
+    border-radius:6px; overflow:hidden; position:relative; height:230px;
+    display:flex; align-items:flex-end; padding:20px;
+    color:var(--white); font-weight:800; font-size:1.05rem;
+  }
+  .gcard::after{content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(0,0,0,.65), rgba(0,0,0,.05)); z-index:0;}
+  .gcard span{position:relative; z-index:1;}
+  .gcard.g1{background:linear-gradient(135deg,#2c2e31,#4a4d51);}
+  .gcard.g2{background:linear-gradient(135deg,#3a2a1c,#e2571c);}
+  .gcard.g3{background:linear-gradient(135deg,#22262a,#8d8f8f);}
+  .gcard.g4{background:linear-gradient(135deg,#1b1c1e,#f4b41a33);}
+  .gcard.g5{background:linear-gradient(135deg,#33230f,#e2571c88);}
+  .gcard.g6{background:linear-gradient(135deg,#26282b,#c9cac8);}
+  .gcard .tag{
+    position:absolute; top:16px; left:16px; z-index:1; background:rgba(0,0,0,.4);
+    font-size:.72rem; font-weight:700; padding:5px 10px; border-radius:20px; color:var(--line-yellow);
+  }
+
+  /* ---------- contact ---------- */
+  #contact{background:var(--white);}
+  .contact-grid{display:grid; grid-template-columns:.85fr 1.15fr; gap:60px;}
+  .contact-info h3{font-size:1.4rem; font-weight:800; margin-bottom:18px;}
+  .info-row{display:flex; gap:14px; margin-bottom:22px; align-items:flex-start;}
+  .info-row .ic{
+    width:38px; height:38px; border-radius:6px; background:var(--asphalt); color:var(--line-yellow);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; font-weight:800;
+  }
+  .info-row .t{font-weight:700; font-size:.95rem; margin-bottom:2px;}
+  .info-row .d{color:#63666a; font-size:.88rem; line-height:1.7;}
+
+  form{background:var(--paper); padding:36px; border-radius:8px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:.85rem; font-weight:700; margin-bottom:7px;}
+  .field input, .field textarea{
+    width:100%; padding:13px 14px; border:1.5px solid #d8d5cb; border-radius:4px;
+    font-family:inherit; font-size:.95rem; background:var(--white); color:var(--asphalt);
+    transition:border-color .2s;
+  }
+  .field input:focus, .field textarea:focus{outline:none; border-color:var(--safety-orange);}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .submit-btn{
+    background:var(--safety-orange); color:var(--white); border:0; padding:15px 30px;
+    font-weight:700; font-size:1rem; border-radius:4px; cursor:pointer; font-family:inherit;
+    transition:filter .2s;
+  }
+  .submit-btn:hover{filter:brightness(1.1);}
+  .form-note{font-size:.8rem; color:#8a8d8f; margin-top:12px;}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--asphalt-2); color:var(--concrete-light); padding:44px 0 26px;}
+  .foot-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:28px;}
+  .foot-brand{color:var(--white); font-weight:900; font-size:1.2rem;}
+  .foot-links{display:flex; gap:26px; flex-wrap:wrap;}
+  .foot-links a{font-size:.88rem; color:var(--concrete-light); transition:color .2s;}
+  .foot-links a:hover{color:var(--line-yellow);}
+  .copyright{font-size:.8rem; color:#75787a; border-top:1px solid rgba(255,255,255,.08); padding-top:20px;}
+
+  /* ---------- reveal on scroll ---------- */
+  .reveal{opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid, .about-grid, .contact-grid{grid-template-columns:1fr;}
+    .service-grid{grid-template-columns:1fr 1fr;}
+    .gallery-grid{grid-template-columns:1fr 1fr;}
+    h1{font-size:2.4rem;}
+    .navlinks{display:none;}
+    .burger{display:block;}
+    .stats .wrap{justify-content:flex-start;}
+  }
+  @media (max-width:600px){
+    .service-grid, .gallery-grid, .row2{grid-template-columns:1fr;}
+    h1{font-size:2rem;}
+    .nav-cta{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="lane small"></div>
+  <nav class="nav">
+    <div class="brand"><span class="dot"></span> الحاج علي</div>
+    <div class="navlinks">
+      <a href="#home">الرئيسية</a>
+      <a href="#about">من نحن</a>
+      <a href="#services">خدماتنا</a>
+      <a href="#contact">تواصل معنا</a>
+    </div>
+    <a href="#contact" class="nav-cta">اطلب عرض سعر</a>
+    <button class="burger" aria-label="القائمة">☰</button>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">شركة الحاج علي للري والطرقات — تقرت، الجزائر</div>
+      <h1>نبني الطرق ونروي الأرض <span>بخبرة</span> راسخة في تقرت</h1>
+      <p class="lead">من مشاريع الري وشبكات المياه إلى رصف الطرق والبنية التحتية، ننفذ مشاريعنا في تقرت وضواحيها بجودة تلتزم بالمواصفات ومواعيد تسليم لا تتأخر.</p>
+      <div class="btn-row">
+        <a href="#contact" class="btn btn-primary">اطلب عرض سعر</a>
+        <a href="#services" class="btn btn-ghost">تعرف على خدماتنا</a>
+      </div>
+    </div>
+    <div class="road-card">
+      <div class="horizon"></div>
+      <div class="strip"></div>
+      <div class="km mono">مشروع قيد الإنشاء — تقرت</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="num mono">+18</div><div class="label">سنة خبرة</div></div>
+    <div class="stat"><div class="num mono">+640</div><div class="label">كيلومتر طرق منفذة</div></div>
+    <div class="stat"><div class="num mono">+120</div><div class="label">مشروع مكتمل</div></div>
+    <div class="stat"><div class="num mono">99%</div><div class="label">التزام بالمواعيد</div></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-visual reveal">
+      <span class="quote-mark">"</span>
+      <p class="quote">كل مشروع ري وكل كيلومتر طريق ننجزه هو أمانة في أرض تقرت التي نعرفها ونخدمها.</p>
+      <div class="signee">— فريق الإدارة الهندسية، شركة الحاج علي</div>
+    </div>
+    <div class="about-body reveal">
+      <div class="kicker">من نحن</div>
+      <h2>شريكك الموثوق في مشاريع الري والطرقات بتقرت</h2>
+      <p>شركة الحاج علي للري والطرقات، ومقرها تقرت، تنفذ مشاريع الري وشبكات المياه ورصف الطرق بمعايير هندسية دقيقة، بدءًا من دراسة الأرض والتصميم، مرورًا بأعمال الحفر والردم، وصولًا إلى التنفيذ النهائي والتشغيل.</p>
+      <p>نجمع بين فرق ميدانية متمرسة وأسطول معدات مناسب لطبيعة منطقة تقرت، لننفذ مشاريع القطاعين العام والخاص ضمن الميزانية والجدول الزمني المتفق عليهما، دون تنازل عن الجودة أو السلامة.</p>
+      <div class="values">
+        <div class="value"><h4>الالتزام بالجدول</h4><p>تسليم المشاريع في مواعيدها المحددة دون تأخير.</p></div>
+        <div class="value"><h4>ضبط الجودة</h4><p>فحوصات مخبرية دورية لكل طبقة رصف.</p></div>
+        <div class="value"><h4>السلامة أولًا</h4><p>معايير سلامة صارمة في كل موقع عمل.</p></div>
+        <div class="value"><h4>معدات حديثة</h4><p>أسطول رصف ودك بأحدث التقنيات.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="kicker">خدماتنا</div>
+      <h2>من التصميم إلى التسليم النهائي</h2>
+      <p>مجموعة متكاملة من خدمات إنشاء وصيانة الطرق، منفّذة بفرق متخصصة لكل مرحلة من مراحل المشروع.</p>
+    </div>
+  </div>
+  <div class="wrap" style="padding:0;">
+    <div class="service-grid reveal">
+      <div class="service"><span class="idx mono">01</span><h3>مشاريع الري وشبكات المياه</h3><p>تنفيذ قنوات وشبكات الري وتوصيل المياه للأراضي الفلاحية والمشاريع العمرانية.</p></div>
+      <div class="service"><span class="idx mono">02</span><h3>رصف الطرق والطرقات</h3><p>تنفيذ طبقات الأساس والرصف الإسفلتي وفق المواصفات الهندسية المعتمدة.</p></div>
+      <div class="service"><span class="idx mono">03</span><h3>أعمال الحفر والردم</h3><p>تسوية الأراضي وأعمال الحفر الترابي والصخري تمهيدًا للإنشاء.</p></div>
+      <div class="service"><span class="idx mono">04</span><h3>شبكات الصرف والتصريف</h3><p>أنظمة تصريف مياه الأمطار وحماية الطرق والأراضي من التآكل والفيضان.</p></div>
+      <div class="service"><span class="idx mono">05</span><h3>العلامات والإشارات المرورية</h3><p>تركيب اللوحات الإرشادية والإشارات الضوئية وخطوط الطريق.</p></div>
+      <div class="service"><span class="idx mono">06</span><h3>الصيانة الدورية</h3><p>برامج صيانة وقائية وطارئة لإطالة عمر الطرق وشبكات الري القائمة.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-info reveal">
+      <div class="kicker">تواصل معنا</div>
+      <h3>لنبدأ مشروعك القادم</h3>
+      <div class="info-row"><div class="ic">☎</div><div><div class="t">الهاتف</div><div class="d">06 55454811</div></div></div>
+      <div class="info-row"><div class="ic">✉</div><div><div class="t">البريد الإلكتروني</div><div class="d">sarlhadjali@gmail.com</div></div></div>
+      <div class="info-row"><div class="ic">📍</div><div><div class="t">العنوان</div><div class="d">تقرت، ولاية تقرت، الجزائر</div></div></div>
+      <div class="info-row"><div class="ic">⏱</div><div><div class="t">ساعات العمل</div><div class="d">السبت – الخميس، 8 صباحًا – 5 مساءً</div></div></div>
+    </div>
+    <form class="reveal" onsubmit="handleSubmit(event)">
+      <div class="row2">
+        <div class="field"><label for="name">الاسم الكامل</label><input id="name" type="text" required></div>
+        <div class="field"><label for="phone">رقم الهاتف</label><input id="phone" type="tel" required></div>
+      </div>
+      <div class="field"><label for="email">البريد الإلكتروني</label><input id="email" type="email" required></div>
+      <div class="field"><label for="subject">نوع المشروع</label><input id="subject" type="text" placeholder="مثال: رصف طريق، جسر، صيانة..."></div>
+      <div class="field"><label for="msg">تفاصيل الطلب</label><textarea id="msg" rows="4" required></textarea></div>
+      <button type="submit" class="submit-btn">إرسال الطلب</button>
+      <p class="form-note" id="formNote">سيتواصل معك فريقنا الهندسي خلال 24 ساعة عمل.</p>
+    </form>
+  </div>
+</section>
+
+<div class="lane"></div>
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">شركة الحاج علي للري والطرقات</div>
+      <div class="foot-links">
+        <a href="#home">الرئيسية</a>
+        <a href="#about">من نحن</a>
+        <a href="#services">خدماتنا</a>
+        <a href="#contact">تواصل معنا</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 شركة الحاج علي للري والطرقات — تقرت، الجزائر. جميع الحقوق محفوظة.</div>
+  </div>
+</footer>
+
+<script>
+  // إظهار العناصر عند التمرير
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  function handleSubmit(e){
+    e.preventDefault();
+    document.getElementById('formNote').textContent = 'تم استلام طلبك بنجاح، سيتواصل معك فريقنا قريبًا.';
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>
